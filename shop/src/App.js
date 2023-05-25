@@ -1,29 +1,36 @@
 import './App.css';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import { useState } from "react"; 
+import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
-/** 이미지 가져올시 
- * import 
- * public 폴더에 넣고 사용
- *   - process.env.PUBLIC_URL + '/image.jpg' 형태로 사용
- * 외부 URL
- **/
-
-import BgImage from './img/bg.png' // 코드상에선 이미지도 import
+import Main from "./pages/Main.js";
+import About from "./pages/About.js";
+import Detail from "./pages/Detail.js";
 
 
 //import Button from 'react-bootstrap/Button'
 //import { Button } from 'react-bootstrap'
 
+
 function App() {
+
+  let navigate = useNavigate();
+
   return (
     <div className="App">
+
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">SHOP</Navbar.Brand>
+          <Navbar.Brand onClick={ () => { navigate('/') }} >SHOP</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#HOME">HOME</Nav.Link>
+              <Nav.Link onClick={ () => { navigate('/') }} >HOME</Nav.Link>
+              <NavDropdown title="ABOUT" id="basic-nav-dropdown">
+                <NavDropdown.Item onClick={ () => { navigate('/about') }} >ABOUT</NavDropdown.Item>
+                <NavDropdown.Item onClick={ () => { navigate('/about/member') }} >MEMBER</NavDropdown.Item>
+                <NavDropdown.Item onClick={ () => { navigate('/about/location') }} >LOCATION</NavDropdown.Item>
+              </NavDropdown>
               <Nav.Link href="#CART">CART</Nav.Link>
             </Nav>
             <Nav>
@@ -36,30 +43,19 @@ function App() {
         </Container>
       </Navbar>
 
-      <div className="main-bg" style={{ backgroundImage: 'url(' + BgImage + ')'}}></div>
-
-      <div className='container'>
-        <div className="row">
-          <div className='col-md-4'>
-            <img src="/image/shoes1.jpg" width="80%" alt="상품1"/>
-            <h4>상품명1</h4>
-            <p>상풍설명</p>
-          </div>
-          <div className='col-md-4'>
-            <img src="https://hong-havi.github.io/study-data/img/shoes2.jpg" width="80%" alt="상품2"/>
-            <h4>상품명2</h4>
-            <p>상풍설명</p>
-          </div>
-          <div className='col-md-4'>
-            <img src="https://hong-havi.github.io/study-data/img/shoes3.jpg" width="80%" alt="상품3"/>
-            <h4>상품명3</h4>
-            <p>상풍설명</p>
-          </div>
-        </div>
-      </div>
+      <Routes>
+        <Route path="/" element={ <Main></Main> } /> {/* 페이지 /메인 */}
+        <Route path="/detail/:id" element={ <Detail></Detail> } /> {/* 페이지 */}
+        <Route path="/about" element={ <About></About> } >
+          <Route path="member" element={ <div>멤버</div> } /> {/* 라우트 그룹 */}
+          <Route path="location" element={ <div>위치</div> } /> {/* 라우트 그룹 */}
+        </Route>
+        <Route path="*" element={<div>없는 페이지입니다.</div>} />
+      </Routes>
 
     </div>
   );
 }
+
 
 export default App;
