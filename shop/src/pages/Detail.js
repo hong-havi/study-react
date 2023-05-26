@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams,Route } from "react-router-dom"
 import data_item from "../data_item.js"
 import styled from "styled-components"
 import { Nav } from "react-bootstrap"
@@ -110,7 +110,9 @@ function Detail() {
                 </Nav>
 
                 <TabContent TabBtn={ TabBtn }></TabContent>
+
             </div>
+
         </div> 
     );
 }
@@ -130,6 +132,7 @@ function TabContent(props){
             setFade('')
         }
     }, [props.TabBtn])
+    
     /*switch( props.TabBtn ){
         case 0 : 
             return (<div>내용0</div>)

@@ -6,6 +6,7 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Main from "./pages/Main.js";
 import About from "./pages/About.js";
 import Detail from "./pages/Detail.js";
+import Cart from "./pages/Cart.js";
 
 
 //import Button from 'react-bootstrap/Button'
@@ -31,7 +32,7 @@ function App() {
                 <NavDropdown.Item onClick={ () => { navigate('/about/member') }} >MEMBER</NavDropdown.Item>
                 <NavDropdown.Item onClick={ () => { navigate('/about/location') }} >LOCATION</NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link href="#CART">CART</Nav.Link>
+              <Nav.Link onClick={ () => {navigate('/cart') }}>CART</Nav.Link>
             </Nav>
             <Nav>
               <Nav.Link href="#deets">More deets</Nav.Link>
@@ -50,6 +51,7 @@ function App() {
           <Route path="member" element={ <div>멤버</div> } /> {/* 라우트 그룹 */}
           <Route path="location" element={ <div>위치</div> } /> {/* 라우트 그룹 */}
         </Route>
+        <Route path="/cart" element={ <Cart/> } /> 
         <Route path="*" element={<div>없는 페이지입니다.</div>} />
       </Routes>
 
