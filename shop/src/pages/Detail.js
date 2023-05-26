@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import data_item from "../data_item.js"
 import styled from "styled-components"
-import { Alert, Button } from "react-bootstrap"
+import { Nav } from "react-bootstrap"
 
 let YellowBtn = styled.button`
     background: ${ props => props.bg };
@@ -35,6 +35,7 @@ function Detail() {
     let [count, setCount] = useState(0)
     let [alert, setAlert] = useState(true)
     let [Inputnum, setInputnum] = useState('')
+    let [TabBtn, setTabBtn ] = useState('0')
 
     let { id } = useParams()
     let item = data_item.find( ( data ) => { return data.id.toString() === id })
@@ -95,9 +96,54 @@ function Detail() {
                     <YellowBtn bg="blue">스타일버튼</YellowBtn>
                     <YellowBtn bg="white">스타일버튼</YellowBtn>
                 </Box>
+
+                <Nav variant="tabs"  defaultActiveKey="link0">
+                    <Nav.Item>
+                    <Nav.Link eventKey="link0" onClick={ () => { setTabBtn(0) } }>버튼0</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                    <Nav.Link eventKey="link1" onClick={ () => { setTabBtn(1) } }>버튼1</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                    <Nav.Link eventKey="link2" onClick={ () => { setTabBtn(2) } }>버튼2</Nav.Link>
+                    </Nav.Item>
+                </Nav>
+
+                <TabContent TabBtn={ TabBtn }></TabContent>
             </div>
         </div> 
     );
+}
+
+function TabContent(props){ 
+
+    let [Fade, setFade] = useState('')
+
+    useEffect( ()=>{
+        // automatic batching 기능에 의해 state 가 붙여있을경우 하나로 합쳐버림
+        let timer = setTimeout( () => {
+            setFade('end')
+        }, 10)
+
+        return () => {
+            clearTimeout(timer)
+            setFade('')
+        }
+    }, [props.TabBtn])
+    /*switch( props.TabBtn ){
+        case 0 : 
+            return (<div>내용0</div>)
+        case 1 : 
+            return (<div>내용1</div>)
+        case 2 : 
+            return (<div>내용2</div>)
+        default :
+            return (<div>내용0</div>)
+    }*/
+
+    return <div className={ `start ${Fade}` }>
+        { [ <div>내용0</div>, <div>내용1</div>, <div>내용2</div>][props.TabBtn] }
+    </div>
 }
 
 
