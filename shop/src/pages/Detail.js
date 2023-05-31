@@ -94,7 +94,7 @@ function Detail() {
                     <button className="btn btn-danger">주문하기</button>&nbsp;
                     <button 
                         className="btn btn-danger"
-                        onClick = { dispatch(addCart({title : item.title})) }
+                        onClick = { () => { dispatch(addCart({title : item.title})) } }
                     >장바구니</button> 
                 </div>
                 <Box>

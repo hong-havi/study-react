@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-
 let cart = createSlice({
     name: 'cart',
     initialState : [
@@ -9,6 +8,9 @@ let cart = createSlice({
     ],
     reducers : {
         changeCount( state, action ){
+            //let targetIndex = state.findIndex((data) => { return data.id === action.payload.id })
+            //let target = state[targetIndex]
+
             let target = state.find( ( data ) => { return data.id === action.payload.id })
             switch( action.payload.action ){
                 case 'increase' :
