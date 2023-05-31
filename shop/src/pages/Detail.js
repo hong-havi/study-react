@@ -4,6 +4,9 @@ import data_item from "../data_item.js"
 import styled from "styled-components"
 import { Nav } from "react-bootstrap"
 
+import { addCart } from "../store/cart.js"
+import { useDispatch } from "react-redux"
+
 let YellowBtn = styled.button`
     background: ${ props => props.bg };
     color: ${ props => props.bg == 'blue' ? 'white' : 'black' };
@@ -39,6 +42,8 @@ function Detail() {
 
     let { id } = useParams()
     let item = data_item.find( ( data ) => { return data.id.toString() === id })
+
+    let dispatch = useDispatch()
 
     useEffect(()=>{
         // 컴퍼넌트 mount,update 시 실행 html 렌덩링이 끝난 후 동작함 밖에 쓸시에 렌더링 전에 실행
@@ -86,7 +91,11 @@ function Detail() {
                     <h4 className="pt-5">{ item.title }</h4>
                     <p>{ item.content }</p>
                     <p>{ item.price }원</p>
-                    <button className="btn btn-danger">주문하기</button> 
+                    <button className="btn btn-danger">주문하기</button>&nbsp;
+                    <button 
+                        className="btn btn-danger"
+                        onClick = { dispatch(addCart({title : item.title})) }
+                    >장바구니</button> 
                 </div>
                 <Box>
                     <p>
