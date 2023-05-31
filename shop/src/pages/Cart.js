@@ -1,3 +1,4 @@
+import {useState, memo, useMemo} from 'react'
 import {Table} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -6,15 +7,40 @@ import { obj_changeName, obj_upAge } from '../store/userobjSlice'
 
 import { changeCount } from '../store/cart'
 
+//부모 컨퍼넌트 랜더링시 자식 컨퍼넌트도 랜더링됨
+// memo : 꼭 필요할때만 재렌더링해주세요
+// memo 원리 : props가 변할때만 재렌더링해줌 기존 props와 신규 props를 계속 비교하기에 props가 길고 복잡할때 불필요한 사용도 손해
+let Child = memo(function(){
+    console.log('랜더링된')
+    return (<div>자식</div>)
+})
+
+
+function func(){
+    //반복문 10억번 돌린 결과
+    return 1
+}
+
 function Cart() {
 
     let state = useSelector( (state)=> state )
     let dispatch = useDispatch() // store js 로 요청해 달라고 메세지를 보내는 함수
+    let [count, setCount] = useState(0)
+
+    //let result = func()
+    //useMemo 처음 컴퍼넌트가 랜더링시에만 1회실행하게 해줌
+    //useEffect 와 useMemo 차이 : useMemo는 랜더링 될때, useEffect 는 랜더링 후
+    useMemo( () => {
+        return func()
+    },[]) // [] 에 state가 변화할때만 작동하도록 할 수 있음
 
     let cartDatas = state.cart
     
     return (
         <div className="Cart">
+            <Child count={count}></Child>
+            <button onClick={ ()=>{ setCount(count+1) }}>+</button>
+
             <p>
                 { state.user }의 장바구니
                 <button onClick={()=>{
